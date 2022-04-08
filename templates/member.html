@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+{{page_title}}  
+{% endblock page_title %}
+
+{% block content %}
+<div class="row featurette my-5">
+    <div class="col-md-5">
+     <h3>{{squad_member.name}}</h3>
+      <img src="{{squad_member.image_source}}" alt="{{squad_member.name}}" class="featurette-image image-respinsive rounded">
+    </div>
+    <div class="col-md-7">
+      <p>
+        {{squad_member.description}}
+      </p>
+    </div>
+  </div>
+{% endblock content %}

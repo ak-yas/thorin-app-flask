@@ -1,4 +1,5 @@
 import os
+import json
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -11,7 +12,21 @@ def index():
 
 @app.route("/about")
 def about():
-    return render_template("about.html", page_title="About")
+    data = []
+    with open("data/squad.json", "r") as json_data:
+        data = json.load(json_data)
+    return render_template("about.html", page_title="About", squads=data)
+
+
+@app.route("/about/<slug>")
+def about_squad(slug):
+    squad_member = {}
+    with open("data/squad.json", "r") as json_data:
+        squad = json.load(json_data)
+        for member in squad:
+            if member["url"] == slug:
+                squad_member = member
+    return render_template("member.html", page_title=squad_member["name"], squad_member=squad_member)
 
 
 @app.route("/contact")
