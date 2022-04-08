@@ -1,9 +1,11 @@
 import os
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, request, flash
+if os.path.exists("env.py"):
+    import env
 
 app = Flask(__name__)
-
+app.secret_key = os.environ.get("SECRET_KEY")
 
 @app.route("/")
 def index():
@@ -29,12 +31,14 @@ def about_squad(slug):
     return render_template("member.html", page_title=squad_member["name"], squad_member=squad_member)
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == 'POST':
+        flash("Thank you {}, we have recieved your message".format(request.form.get("name")))
     return render_template("contact.html", page_title="Contact")
 
 
-@app.route("/careers")
+@ app.route("/careers")
 def careers():
     return render_template("careers.html", page_title="careers")
 
